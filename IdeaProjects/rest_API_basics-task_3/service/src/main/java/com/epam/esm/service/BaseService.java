@@ -1,0 +1,16 @@
+package com.epam.esm.service;
+
+import com.epam.esm.entity.Page;
+
+import java.util.List;
+
+public interface BaseService<T, K> {
+
+    List<T> findAll(Page page);
+
+    T findById(K k);
+
+    T create(T t);
+
+    void delete(K k);
+}
