@@ -2,7 +2,7 @@ package com.epam.esm.exception;
 
 public class CertificateNotFoundException extends CustomServiceException {
 
-    private static final int CERTIFICATE_NOT_FOUND_ERROR_CODE = 103;
+    private static final int CERTIFICATE_NOT_FOUND_STATUS_CODE = 404;
     private static final String CERTIFICATE_NOT_FOUND_MESSAGE = "Error! Certificate has been not found!";
 
     public CertificateNotFoundException(String message) {
@@ -11,7 +11,7 @@ public class CertificateNotFoundException extends CustomServiceException {
 
     @Override
     public int getErrorCode() {
-        return CERTIFICATE_NOT_FOUND_ERROR_CODE;
+        return CERTIFICATE_NOT_FOUND_STATUS_CODE;
     }
 
     @Override

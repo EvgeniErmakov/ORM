@@ -5,7 +5,7 @@ import com.epam.esm.entity.Page;
 
 import java.util.List;
 
-public interface TagService extends BaseService<TagDTO, Long> {
+public interface TagService extends CommonService<TagDTO, Long> {
 
     List<TagDTO> findAllByCertificateId(Long id, Page page);
 

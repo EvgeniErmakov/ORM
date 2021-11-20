@@ -9,5 +9,5 @@ import java.util.Map;
 @Data
 public class CustomErrorResponse {
     private Map<Object, String> errorMessage;
-    private int errorCode;
+    private int errorStatusCode;
 }

@@ -2,8 +2,8 @@ package com.epam.esm.exception;
 
 public class TagNotFoundException extends CustomServiceException {
 
-    private static final int TAG_NOT_FOUND_ERROR_CODE = 104;
-    private static final String TAG_NOT_FOUND_MESSAGE = "error.tagNotFound";
+    private static final int TAG_NOT_FOUND_STATUS_CODE = 404;
+    private static final String TAG_NOT_FOUND_MESSAGE =  "Error! Tag has been not found!";
 
     public TagNotFoundException(String message) {
         super(message);
@@ -11,7 +11,7 @@ public class TagNotFoundException extends CustomServiceException {
 
     @Override
     public int getErrorCode() {
-        return TAG_NOT_FOUND_ERROR_CODE;
+        return TAG_NOT_FOUND_STATUS_CODE;
     }
 
     @Override

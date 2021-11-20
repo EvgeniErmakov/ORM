@@ -33,7 +33,7 @@ public class Certificate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 150, nullable = false)
+    @Column(length = 30, nullable = false)
     private String name;
 
     @Column(length = 300, nullable = false)

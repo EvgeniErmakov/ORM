@@ -5,7 +5,7 @@ import com.epam.esm.entity.Page;
 
 import java.util.List;
 
-public interface OrderService extends BaseService<OrderDTO, Long> {
+public interface OrderService extends CommonService<OrderDTO, Long> {
 
     List<OrderDTO> findAllByUserId(Long id, Page page);
 }

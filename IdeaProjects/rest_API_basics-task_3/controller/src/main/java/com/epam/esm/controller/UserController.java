@@ -26,7 +26,7 @@ public class UserController {
     private final UserService userService;
     private final OrderService orderService;
 
-    private static final int MIN_ID_VALUE = 1;
+    private static final int MIN_ID = 1;
 
     @GetMapping
     public List<UserDTO> findAll(@Valid Page page) {
@@ -34,17 +34,17 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    public UserDTO findById(@PathVariable @Min(MIN_ID_VALUE) Long id) {
+    public UserDTO findById(@PathVariable @Min(MIN_ID) Long id) {
         return ResponseAssembler.assembleUser(userService.findById(id));
     }
 
     @GetMapping(value = "/{id}/orders")
-    public List<OrderDTO> findUserOrders(@PathVariable @Min(MIN_ID_VALUE) Long id, @Valid Page page) {
+    public List<OrderDTO> findUserOrders(@PathVariable @Min(MIN_ID) Long id, @Valid Page page) {
         return ResponseAssembler.assembleOrders(orderService.findAllByUserId(id, page));
     }
 
     @GetMapping(value = "/{userId}/orders/{orderId}")
-    public OrderDTO findUserOrderById(@PathVariable @Min(MIN_ID_VALUE) Long userId, @PathVariable @Min(MIN_ID_VALUE) Long orderId) {
+    public OrderDTO findUserOrderById(@PathVariable @Min(MIN_ID) Long userId, @PathVariable @Min(MIN_ID) Long orderId) {
         return ResponseAssembler.assembleOrder(orderService.findById(orderId));
     }
 }

@@ -16,17 +16,16 @@ import java.util.Properties;
 public class DatabaseConfig {
 
     @Value("postgres")
-    private String jdbcName;
+    private String name;
 
     @Value("jdbc:postgresql://localhost:5432/postgres")
-    private String jdbcUrl;
+    private String url;
 
     @Value("123")
-    private String jdbcPassword;
+    private String password;
 
     @Value("org.postgresql.Driver")
-    private String jdbcDriver;
-
+    private String driver;
 
     @Value("org.hibernate.dialect.PostgreSQLDialect")
     private String dialect;
@@ -38,15 +37,15 @@ public class DatabaseConfig {
     private String hbm2DdlAuto;
 
     @Value("com.epam.esm")
-    private String packagesToScan;
+    private String packagesForScan;
 
     @Bean
     public DataSource getDataSource() {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(jdbcUrl);
-        config.setUsername(jdbcName);
-        config.setPassword(jdbcPassword);
-        config.setDriverClassName(jdbcDriver);
+        config.setJdbcUrl(url);
+        config.setUsername(name);
+        config.setPassword(password);
+        config.setDriverClassName(driver);
         return new HikariDataSource(config);
     }
 
@@ -54,7 +53,7 @@ public class DatabaseConfig {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(getDataSource());
-        sessionFactory.setPackagesToScan(packagesToScan);
+        sessionFactory.setPackagesToScan(packagesForScan);
         Properties hibernateProperties = new Properties();
         hibernateProperties.put("hibernate.dialect", dialect);
         hibernateProperties.put("hibernate.show_sql", showSql);

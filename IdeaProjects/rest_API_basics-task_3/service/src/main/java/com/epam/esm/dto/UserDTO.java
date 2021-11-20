@@ -18,7 +18,7 @@ import javax.validation.constraints.Size;
 public class UserDTO extends RepresentationModel<UserDTO> {
     private Long id;
 
-    @Size(min = 1, max = 150)
+    @Size(min = 1, max = 300)
     @NotBlank
     private String name;
 }

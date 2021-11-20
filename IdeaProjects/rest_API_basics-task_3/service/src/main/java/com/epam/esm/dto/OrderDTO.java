@@ -23,6 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class OrderDTO extends RepresentationModel<OrderDTO> {
+
     private Long id;
 
     @NotEmpty
@@ -36,5 +37,4 @@ public class OrderDTO extends RepresentationModel<OrderDTO> {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private ZonedDateTime orderTime;
-
 }

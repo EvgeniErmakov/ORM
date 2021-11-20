@@ -7,7 +7,7 @@ import com.epam.esm.entity.Page;
 
 import java.util.List;
 
-public interface CertificateService extends BaseService<CertificateDTO, Long> {
+public interface CertificateService extends CommonService<CertificateDTO, Long> {
 
     List<CertificateDTO> findAll(ParametersSpecificationDTO querySpecificationDTO, Page page);
 

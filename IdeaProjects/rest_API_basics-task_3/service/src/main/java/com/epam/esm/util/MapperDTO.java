@@ -14,45 +14,41 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class MapperDTO {
 
-    private final ModelMapper modelMapper;
+    private final ModelMapper mapper;
 
     public CertificateDTO convertCertificateToDTO(Certificate certificate) {
-        return modelMapper.map(certificate, CertificateDTO.class);
+        return mapper.map(certificate, CertificateDTO.class);
     }
 
     public Certificate convertDTOToCertificate(CertificateDTO certificateDTO) {
-        return modelMapper.map(certificateDTO, Certificate.class);
-    }
-
-    public TagDTO convertTagToDTO(Tag tag) {
-        return modelMapper.map(tag, TagDTO.class);
-    }
-
-    public Tag convertDTOToTag(TagDTO tagDTO) {
-        return modelMapper.map(tagDTO, Tag.class);
+        return mapper.map(certificateDTO, Certificate.class);
     }
 
     public QuerySpecification convertDTOToQuery(ParametersSpecificationDTO querySpecificationDTO) {
-        return modelMapper.map(querySpecificationDTO, QuerySpecification.class);
+        return mapper.map(querySpecificationDTO, QuerySpecification.class);
+    }
+
+    public TagDTO convertTagToDTO(Tag tag) {
+        return mapper.map(tag, TagDTO.class);
+    }
+
+    public Tag convertDTOToTag(TagDTO tagDTO) {
+        return mapper.map(tagDTO, Tag.class);
     }
 
     public UserDTO convertUserToDTO(User user) {
-        return modelMapper.map(user, UserDTO.class);
-    }
-
-    public User convertDTOToUser(UserDTO userDTO) {
-        return modelMapper.map(userDTO, User.class);
+        return mapper.map(user, UserDTO.class);
     }
 
     public OrderDTO convertOrderToDTO(Order order) {
-        return modelMapper.map(order, OrderDTO.class);
+        return mapper.map(order, OrderDTO.class);
     }
 
     public Order convertDTOToOrder(OrderDTO orderDTO) {
-        return modelMapper.map(orderDTO, Order.class);
+        return mapper.map(orderDTO, Order.class);
     }
 
     public Certificate convertPatchDTOToCertificate(PatchDTO patchDTO) {
-        return modelMapper.map(patchDTO, Certificate.class);
+        return mapper.map(patchDTO, Certificate.class);
     }
 }

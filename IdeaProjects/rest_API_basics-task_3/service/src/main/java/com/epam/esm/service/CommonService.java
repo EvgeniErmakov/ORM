@@ -4,7 +4,7 @@ import com.epam.esm.entity.Page;
 
 import java.util.List;
 
-public interface BaseService<T, K> {
+public interface CommonService<T, K> {
 
     List<T> findAll(Page page);
 

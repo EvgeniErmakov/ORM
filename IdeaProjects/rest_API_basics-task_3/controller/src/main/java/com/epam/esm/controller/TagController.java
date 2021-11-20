@@ -30,7 +30,7 @@ public class TagController {
 
     private final TagService service;
 
-    private static final int MIN_ID_VALUE = 1;
+    private static final int MIN_ID = 1;
 
     @GetMapping
     public List<TagDTO> findAll(@Valid Page page) {
@@ -38,7 +38,7 @@ public class TagController {
     }
 
     @GetMapping(value = "/{id}")
-    public TagDTO findById(@PathVariable @Min(MIN_ID_VALUE) Long id) {
+    public TagDTO findById(@PathVariable @Min(MIN_ID) Long id) {
         return ResponseAssembler.assembleTag(service.findById(id));
     }
 
@@ -50,12 +50,12 @@ public class TagController {
 
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable @Min(MIN_ID_VALUE) Long id) {
+    public void delete(@PathVariable @Min(MIN_ID) Long id) {
         service.delete(id);
     }
 
-    @GetMapping(value = "/popular")
-    public TagDTO findPopular() {
+    @GetMapping(value = "/mostPopular")
+    public TagDTO findMostPopular() {
         return ResponseAssembler.assembleTag(service.findPopular());
     }
 }

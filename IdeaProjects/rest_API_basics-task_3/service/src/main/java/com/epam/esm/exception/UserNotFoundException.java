@@ -2,8 +2,8 @@ package com.epam.esm.exception;
 
 public class UserNotFoundException extends CustomServiceException {
 
-    private static final int USER_NOT_FOUND_CODE = 105;
-    private static final String USER_NOT_FOUND_MESSAGE = "error.userNotFound";
+    private static final int USER_NOT_FOUND_STATUS_CODE = 404;
+    private static final String USER_NOT_FOUND_MESSAGE =  "Error! User has been not found!";
 
     public UserNotFoundException(String message) {
         super(message);
@@ -11,7 +11,7 @@ public class UserNotFoundException extends CustomServiceException {
 
     @Override
     public int getErrorCode() {
-        return USER_NOT_FOUND_CODE;
+        return USER_NOT_FOUND_STATUS_CODE;
     }
 
     @Override

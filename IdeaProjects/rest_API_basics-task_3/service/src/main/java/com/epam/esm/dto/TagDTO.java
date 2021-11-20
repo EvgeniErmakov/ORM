@@ -18,7 +18,7 @@ import org.springframework.hateoas.RepresentationModel;
 public class TagDTO extends RepresentationModel<TagDTO> {
     private long id;
 
-    @Size(min = 1, max = 150)
+    @Size(min = 1, max = 300)
     @NotBlank
     private String name;
 }

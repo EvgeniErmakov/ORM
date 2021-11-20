@@ -5,7 +5,7 @@ import com.epam.esm.entity.Page;
 import java.util.List;
 import java.util.Optional;
 
-public interface BaseDAO<T, K> {
+public interface CommonDAO<T, K> {
 
     List<T> findAll(Page page);
 

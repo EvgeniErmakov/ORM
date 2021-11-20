@@ -60,7 +60,7 @@ public class CustomExceptionHandler {
                                 )
                         )
                 )
-                .errorCode(BIND_EXCEPTION_ERROR_CODE)
+                .errorStatusCode(BIND_EXCEPTION_ERROR_CODE)
                 .build();
         return new ResponseEntity<>(customErrorResponse, HttpStatus.BAD_REQUEST);
     }
@@ -78,7 +78,7 @@ public class CustomExceptionHandler {
                                         (existing, replacement) -> existing
                                 )
                         ))
-                .errorCode(CONSTRAINT_VIOLATION_ERROR_CODE)
+                .errorStatusCode(CONSTRAINT_VIOLATION_ERROR_CODE)
                 .build();
         return new ResponseEntity<>(customErrorResponse, HttpStatus.BAD_REQUEST);
     }
@@ -86,7 +86,7 @@ public class CustomExceptionHandler {
     private ErrorResponse createErrorResponse(String errorMessage, int errorCode) {
         ErrorResponse response = new ErrorResponse();
         response.setErrorMessage(errorMessage);
-        response.setErrorCode(errorCode);
+        response.setErrorStatusCode(errorCode);
         return response;
     }
 }

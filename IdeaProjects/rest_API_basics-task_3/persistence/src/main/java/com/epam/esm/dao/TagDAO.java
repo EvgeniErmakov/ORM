@@ -4,7 +4,7 @@ import com.epam.esm.entity.Tag;
 
 import java.util.Optional;
 
-public interface TagDAO extends BaseDAO<Tag, Long> {
+public interface TagDAO extends CommonDAO<Tag, Long> {
 
     Optional<Tag> findByName(String name);
 
