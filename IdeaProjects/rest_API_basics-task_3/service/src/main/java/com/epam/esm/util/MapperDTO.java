@@ -32,7 +32,7 @@ public class MapperDTO {
         return modelMapper.map(tagDTO, Tag.class);
     }
 
-    public QuerySpecification convertDTOToQuery(QuerySpecificationDTO querySpecificationDTO) {
+    public QuerySpecification convertDTOToQuery(ParametersSpecificationDTO querySpecificationDTO) {
         return modelMapper.map(querySpecificationDTO, QuerySpecification.class);
     }
 

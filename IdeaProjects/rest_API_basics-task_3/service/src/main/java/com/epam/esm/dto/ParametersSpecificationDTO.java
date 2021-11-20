@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuerySpecificationDTO {
+public class ParametersSpecificationDTO {
     private List<String> tags;
 
     private String text;

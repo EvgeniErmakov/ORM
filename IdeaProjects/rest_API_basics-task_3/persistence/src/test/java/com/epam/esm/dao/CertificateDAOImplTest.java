@@ -1,6 +1,6 @@
 package com.epam.esm.dao;
 
-import com.epam.esm.config.TestConfig;
+import com.epam.esm.configuration.TestConfig;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.entity.Page;
 import com.epam.esm.entity.QuerySpecification;

@@ -53,7 +53,7 @@ public class Certificate {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinTable(
-            name = "tag_has_gift_certificate",
+            name = "relationship_certificates_and_tags",
             joinColumns = @JoinColumn(name = "gift_certificate_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags;

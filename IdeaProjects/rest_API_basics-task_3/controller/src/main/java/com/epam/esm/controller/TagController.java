@@ -37,15 +37,15 @@ public class TagController {
         return ResponseAssembler.assembleTags(service.findAll(page));
     }
 
+    @GetMapping(value = "/{id}")
+    public TagDTO findById(@PathVariable @Min(MIN_ID_VALUE) Long id) {
+        return ResponseAssembler.assembleTag(service.findById(id));
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TagDTO create(@Valid @RequestBody TagDTO tagDTO) {
         return ResponseAssembler.assembleTag(service.create(tagDTO));
-    }
-
-    @GetMapping(value = "/{id}")
-    public TagDTO findById(@PathVariable @Min(MIN_ID_VALUE) Long id) {
-        return ResponseAssembler.assembleTag(service.findById(id));
     }
 
     @DeleteMapping(value = "{id}")

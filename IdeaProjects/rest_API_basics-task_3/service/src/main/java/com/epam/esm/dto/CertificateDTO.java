@@ -32,7 +32,7 @@ public class CertificateDTO extends RepresentationModel<CertificateDTO> {
 
     private Long id;
 
-    @Size(min = 1, max = 150)
+    @Size(min = 1, max = 300)
     @NotBlank
     private String name;
 
@@ -46,7 +46,7 @@ public class CertificateDTO extends RepresentationModel<CertificateDTO> {
     private BigDecimal price;
 
     @Min(1)
-    @Max(100)
+    @Max(366)
     private int duration;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")

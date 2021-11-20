@@ -5,7 +5,7 @@ import com.epam.esm.dao.OrderDAO;
 import com.epam.esm.dao.TagDAO;
 import com.epam.esm.dto.CertificateDTO;
 import com.epam.esm.dto.PatchDTO;
-import com.epam.esm.dto.QuerySpecificationDTO;
+import com.epam.esm.dto.ParametersSpecificationDTO;
 import com.epam.esm.dto.TagDTO;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.entity.Page;
@@ -47,27 +47,28 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public List<CertificateDTO> findAll(Page page) {
         return certificateDAO.findAll(page)
-                .stream()
-                .map(mapperDTO::convertCertificateToDTO)
-                .collect(Collectors.toList());
+            .stream()
+            .map(mapperDTO::convertCertificateToDTO)
+            .collect(Collectors.toList());
     }
 
     @Override
     public CertificateDTO findById(Long id) {
-        Optional<Certificate> certificate = certificateDAO.findById(id);
-        if (certificate.isEmpty() || !certificate.get().isActive()) {
+        Certificate certificate = certificateDAO.findById(id)
+            .orElseThrow(() -> new CertificateNotFoundException(id.toString()));
+        if (!certificate.isActive()) {
             throw new CertificateNotFoundException(id.toString());
         }
-        return mapperDTO.convertCertificateToDTO(certificate.get());
+        return mapperDTO.convertCertificateToDTO(certificate);
     }
 
     @Override
-    public List<CertificateDTO> findAll(QuerySpecificationDTO querySpecificationDTO, Page page) {
+    public List<CertificateDTO> findAll(ParametersSpecificationDTO querySpecificationDTO, Page page) {
         QuerySpecification querySpecification = mapperDTO.convertDTOToQuery(querySpecificationDTO);
         return certificateDAO.findAll(querySpecification, page)
-                .stream()
-                .map(mapperDTO::convertCertificateToDTO)
-                .collect(Collectors.toList());
+            .stream()
+            .map(mapperDTO::convertCertificateToDTO)
+            .collect(Collectors.toList());
     }
 
     @Override
@@ -87,11 +88,11 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     @Transactional
     public CertificateDTO applyPatch(Long id, PatchDTO patchDTO) {
-        Optional<Certificate> optional = certificateDAO.findById(id);
-        if (optional.isEmpty() || !optional.get().isActive()) {
+        Certificate certificate = certificateDAO.findById(id)
+            .orElseThrow(() -> new CertificateNotFoundException(id.toString()));
+        if (!certificate.isActive()) {
             throw new CertificateNotFoundException(id.toString());
         }
-        Certificate certificate = optional.get();
         Certificate update = mapperDTO.convertPatchDTOToCertificate(patchDTO);
         certificate = certificateDAO.applyPatch(certificate, update);
         attachTags(certificate, patchDTO.getTags());
@@ -101,27 +102,28 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public List<CertificateDTO> findAllByOrderId(Long id, Page page) {
         return orderDAO
-                .findById(id)
-                .orElseThrow(() -> new OrderNotFoundException(id.toString()))
-                .getCertificates()
-                .stream()
-                .distinct()
-                .skip(page.getPage() * page.getSize())
-                .limit(page.getSize())
-                .map(mapperDTO::convertCertificateToDTO)
-                .collect(Collectors.toList());
+            .findById(id)
+            .orElseThrow(() -> new OrderNotFoundException(id.toString()))
+            .getCertificates()
+            .stream()
+            .distinct()
+            .skip(page.getPage() * page.getSize())
+            .limit(page.getSize())
+            .map(mapperDTO::convertCertificateToDTO)
+            .collect(Collectors.toList());
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
         certificateDAO.delete(certificateDAO.findById(id)
-                .orElseThrow(() -> new CertificateNotFoundException(id.toString())));
+            .orElseThrow(() -> new CertificateNotFoundException(id.toString())));
     }
 
     private void attachTags(Certificate certificate, Set<TagDTO> tags) {
         if (!ObjectUtils.isEmpty(tags)) {
-            tags.forEach(o -> certificate.getTags().add(tagDAO.findOrCreate(mapperDTO.convertDTOToTag(o))));
+            tags.forEach(
+                o -> certificate.getTags().add(tagDAO.findOrCreate(mapperDTO.convertDTOToTag(o))));
         }
     }
 }

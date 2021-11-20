@@ -70,7 +70,7 @@ public class ResponseAssembler {
             certificate.add(linkTo(methodOn(CertificateController.class).findTagsByCertificateId(certificate.getId(), new Page())).withRel("tags"));
         }
         certificate.setTags(null);
-        return certificate.add(linkTo(methodOn(CertificateController.class).findById(certificate.getId())).withSelfRel());
+        return certificate;
     }
 
     private static OrderDTO mapOrder(OrderDTO orderDTO) {

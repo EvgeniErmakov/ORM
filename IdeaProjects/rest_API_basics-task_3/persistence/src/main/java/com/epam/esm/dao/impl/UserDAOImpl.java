@@ -16,7 +16,7 @@ public class UserDAOImpl implements UserDAO {
 
     private final EntityManager entityManager;
 
-    private static final String JPA_SELECT_ALL = "SELECT a FROM user a";
+    private static final String JPA_SELECT_ALL = "SELECT a FROM clientele a";
 
     @Override
     public List<User> findAll(Page page) {

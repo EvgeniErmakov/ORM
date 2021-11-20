@@ -39,11 +39,12 @@ public class CertificateDAOImpl implements CertificateDAO {
 
     @Override
     public List<Certificate> findAll(QuerySpecification querySpecification, Page page) {
-        CriteriaQuery<Certificate> criteriaQuery = createCriteriaQueryFromQuerySpecification(querySpecification);
+        CriteriaQuery<Certificate> criteriaQuery = createCriteriaQueryFromQuerySpecification(
+            querySpecification);
         return entityManager.createQuery(criteriaQuery)
-                .setFirstResult(page.getPage() * page.getSize())
-                .setMaxResults(page.getSize())
-                .getResultList();
+            .setFirstResult((page.getPage() * page.getSize()) - page.getSize())
+            .setMaxResults(page.getSize())
+            .getResultList();
     }
 
     @Override
@@ -55,9 +56,9 @@ public class CertificateDAOImpl implements CertificateDAO {
     @Override
     public List<Certificate> findAll(Page page) {
         return entityManager.createQuery(JPA_SELECT_ALL, Certificate.class)
-                .setFirstResult(page.getPage() * page.getSize())
-                .setMaxResults(page.getSize())
-                .getResultList();
+            .setFirstResult(page.getPage() * page.getSize())
+            .setMaxResults(page.getSize())
+            .getResultList();
     }
 
     @Override
@@ -76,10 +77,16 @@ public class CertificateDAOImpl implements CertificateDAO {
 
     @Override
     public Certificate applyPatch(Certificate certificate, Certificate update) {
-        certificate.setName(ObjectUtils.isEmpty(update.getName()) ? certificate.getName() : update.getName());
-        certificate.setDescription(ObjectUtils.isEmpty(update.getDescription()) ? certificate.getDescription() : update.getDescription());
-        certificate.setPrice(ObjectUtils.isEmpty(update.getPrice()) ? certificate.getPrice() : update.getPrice());
-        certificate.setDuration(ObjectUtils.isEmpty(update.getDuration()) ? certificate.getDuration() : update.getDuration());
+        certificate.setName(
+            ObjectUtils.isEmpty(update.getName()) ? certificate.getName() : update.getName());
+        certificate.setDescription(
+            ObjectUtils.isEmpty(update.getDescription()) ? certificate.getDescription()
+                : update.getDescription());
+        certificate.setPrice(
+            ObjectUtils.isEmpty(update.getPrice()) ? certificate.getPrice() : update.getPrice());
+        certificate.setDuration(
+            ObjectUtils.isEmpty(update.getDuration()) ? certificate.getDuration()
+                : update.getDuration());
         return certificate;
     }
 
@@ -88,32 +95,39 @@ public class CertificateDAOImpl implements CertificateDAO {
         certificate.setActive(false);
     }
 
-    private CriteriaQuery<Certificate> createCriteriaQueryFromQuerySpecification(QuerySpecification querySpecification) {
+    private CriteriaQuery<Certificate> createCriteriaQueryFromQuerySpecification(
+        QuerySpecification querySpecification) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Certificate> criteriaQuery = criteriaBuilder.createQuery(Certificate.class);
         Root<Certificate> root = criteriaQuery.from(Certificate.class);
         List<Predicate> list = new ArrayList<>();
         list.add(criteriaBuilder.equal(root.get(IS_ACTIVE_ATTRIBUTE), IS_ACTIVE_VALUE));
         if (!ObjectUtils.isEmpty(querySpecification.getTags())) {
-            Join<Certificate, Tag> join = root.join(CERTIFICATE_TAGS_ATTRIBUTE_NAME, JoinType.INNER);
-            list.add(criteriaBuilder.in(join.get(NAME_ATTRIBUTE)).value(querySpecification.getTags()));
+            Join<Certificate, Tag> join = root.join(CERTIFICATE_TAGS_ATTRIBUTE_NAME,
+                JoinType.INNER);
+            list.add(
+                criteriaBuilder.in(join.get(NAME_ATTRIBUTE)).value(querySpecification.getTags()));
             criteriaQuery.groupBy(root);
-            criteriaQuery.having(criteriaBuilder.equal(criteriaBuilder.count(root), querySpecification.getTags().size()));
+            criteriaQuery.having(criteriaBuilder.equal(criteriaBuilder.count(root),
+                querySpecification.getTags().size()));
         }
         if (!ObjectUtils.isEmpty(querySpecification.getText())) {
             list.add(criteriaBuilder.or(criteriaBuilder.like(root.get(NAME_ATTRIBUTE),
                     String.format(LIKE_OPERATOR_FORMAT, querySpecification.getText())),
-                    criteriaBuilder.like(root.get(DESCRIPTION_ATTRIBUTE),
-                            String.format(LIKE_OPERATOR_FORMAT, querySpecification.getText()))));
+                criteriaBuilder.like(root.get(DESCRIPTION_ATTRIBUTE),
+                    String.format(LIKE_OPERATOR_FORMAT, querySpecification.getText()))));
         }
         if (!ObjectUtils.isEmpty(querySpecification.getOrder())) {
             List<Order> ordersList = new ArrayList<>();
             querySpecification.getOrder()
-                    .forEach(s -> ordersList.add((ObjectUtils.isEmpty(querySpecification.getSort())
-                            || querySpecification.getSort().remove(0).toUpperCase(Locale.ROOT).equals(SQL_ASC))
-                            ? criteriaBuilder.asc(root.get(s)) : criteriaBuilder.desc(root.get(s))));
+                .forEach(s -> ordersList.add((ObjectUtils.isEmpty(querySpecification.getSort())
+                    || querySpecification.getSort().remove(0).toUpperCase(Locale.ROOT)
+                    .equals(SQL_ASC))
+                    ? criteriaBuilder.asc(root.get(s)) : criteriaBuilder.desc(root.get(s))));
             Order[] orders = new Order[ordersList.size()];
             criteriaQuery.orderBy(ordersList.toArray(orders));
+        } else {
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get("id")));
         }
         Predicate[] predicates = new Predicate[list.size()];
         return criteriaQuery.select(root).where(list.toArray(predicates));

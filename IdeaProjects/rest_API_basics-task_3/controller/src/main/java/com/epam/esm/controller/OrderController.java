@@ -30,7 +30,7 @@ public class OrderController {
     private final OrderService orderService;
     private final CertificateService certificateService;
 
-    private static final int MIN_ID_VALUE = 1;
+    private static final int MIN_ID = 1;
 
     @GetMapping
     public List<OrderDTO> findAll(@Valid Page page) {
@@ -44,12 +44,12 @@ public class OrderController {
     }
 
     @GetMapping(value = "/{id}/certificates")
-    public List<CertificateDTO> findAllByOrderId(@PathVariable @Min(MIN_ID_VALUE) Long id, @Valid Page page) {
+    public List<CertificateDTO> findAllByOrderId(@PathVariable @Min(MIN_ID) Long id, @Valid Page page) {
         return ResponseAssembler.assembleCertificates(certificateService.findAllByOrderId(id, page));
     }
 
     @GetMapping(value = "/{id}")
-    public OrderDTO findById(@PathVariable @Min(MIN_ID_VALUE) Long id) {
+    public OrderDTO findById(@PathVariable @Min(MIN_ID) Long id) {
         return ResponseAssembler.assembleOrder(orderService.findById(id));
     }
 

@@ -2,9 +2,9 @@ package com.epam.esm.controller;
 
 import com.epam.esm.dto.CertificateDTO;
 import com.epam.esm.dto.PatchDTO;
-import com.epam.esm.dto.QuerySpecificationDTO;
+import com.epam.esm.dto.ParametersSpecificationDTO;
 import com.epam.esm.dto.TagDTO;
-import com.epam.esm.entity.Page;
+import com.epam.esm.entity.*;
 import com.epam.esm.service.CertificateService;
 import com.epam.esm.service.TagService;
 import com.epam.esm.util.ResponseAssembler;
@@ -35,17 +35,16 @@ public class CertificateController {
     private final CertificateService certificateService;
     private final TagService tagService;
 
-    private static final int MIN_ID_VALUE = 1;
-
-
-    @GetMapping
-    public List<CertificateDTO> findAllByCriteria(QuerySpecificationDTO querySpecificationDTO, @Valid Page page) {
-        return ResponseAssembler.assembleCertificates(certificateService.findAll(querySpecificationDTO, page));
-    }
+    private static final int MIN_ID = 1;
 
     @GetMapping(value = "/{id}")
-    public CertificateDTO findById(@PathVariable @Min(MIN_ID_VALUE) Long id) {
+    public CertificateDTO findById(@PathVariable @Min(MIN_ID) Long id) {
         return ResponseAssembler.assembleCertificate(certificateService.findById(id));
+    }
+
+    @GetMapping
+    public List<CertificateDTO> findAllByFilter(ParametersSpecificationDTO parameters, @Valid Page page) {
+        return ResponseAssembler.assembleCertificates(certificateService.findAll(parameters, page));
     }
 
     @PostMapping
@@ -56,25 +55,25 @@ public class CertificateController {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable @Min(MIN_ID_VALUE) Long id) {
+    public void delete(@PathVariable @Min(MIN_ID) Long id) {
         certificateService.delete(id);
     }
 
     @PatchMapping(value = "/{id}")
-    public CertificateDTO patch(@PathVariable @Min(MIN_ID_VALUE) Long id, @Valid @RequestBody PatchDTO patchDTO) {
+    public CertificateDTO patch(@PathVariable @Min(MIN_ID) Long id, @Valid @RequestBody PatchDTO patchDTO) {
         certificateService.applyPatch(id, patchDTO);
         return ResponseAssembler.assembleCertificate(certificateService.findById(id));
     }
 
     @PutMapping(value = "/{id}")
-    public CertificateDTO update(@PathVariable @Min(MIN_ID_VALUE) Long id, @Valid @RequestBody CertificateDTO certificateDTO) {
+    public CertificateDTO update(@PathVariable @Min(MIN_ID) Long id, @Valid @RequestBody CertificateDTO certificateDTO) {
         certificateDTO.setId(id);
         certificateService.update(certificateDTO);
         return ResponseAssembler.assembleCertificate(certificateService.findById(id));
     }
 
     @GetMapping(value = "/{id}/tags")
-    public List<TagDTO> findTagsByCertificateId(@PathVariable @Min(MIN_ID_VALUE) Long id, @Valid Page page) {
+    public List<TagDTO> findTagsByCertificateId(@PathVariable @Min(MIN_ID) Long id, @Valid Page page) {
         return ResponseAssembler.assembleTags(tagService.findAllByCertificateId(id, page));
     }
 }

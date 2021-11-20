@@ -5,7 +5,7 @@ import com.epam.esm.dao.OrderDAO;
 import com.epam.esm.dao.TagDAO;
 import com.epam.esm.dto.CertificateDTO;
 import com.epam.esm.dto.PatchDTO;
-import com.epam.esm.dto.QuerySpecificationDTO;
+import com.epam.esm.dto.ParametersSpecificationDTO;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.entity.Order;
 import com.epam.esm.entity.Page;
@@ -123,7 +123,7 @@ class CertificateServiceImplTest {
 
     @Test
     void findAllQuerySpecificationValid() {
-        QuerySpecificationDTO querySpecificationDTO = QuerySpecificationDTO.builder().build();
+        ParametersSpecificationDTO querySpecificationDTO = ParametersSpecificationDTO.builder().build();
         QuerySpecification querySpecification = QuerySpecification.builder().build();
         Mockito.when(mapperDTO.convertDTOToQuery(querySpecificationDTO)).thenReturn(querySpecification);
         List<Certificate> certificates = new ArrayList<>();

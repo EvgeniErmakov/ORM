@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation project(':model')
+    implementation project(':persistence')
     implementation project(':service')
 }
 

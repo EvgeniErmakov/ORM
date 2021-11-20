@@ -25,7 +25,7 @@ public class PatchDTO {
 
     private Long id;
 
-    @Size(min = 1, max = 150)
+    @Size(min = 1, max = 300)
     @Pattern(regexp = "(.|\\s)*\\S(.|\\s)*")
     private String name;
 
@@ -38,7 +38,7 @@ public class PatchDTO {
     private BigDecimal price;
 
     @Min(1)
-    @Max(100)
+    @Max(366)
     private Integer duration;
 
     @Valid
