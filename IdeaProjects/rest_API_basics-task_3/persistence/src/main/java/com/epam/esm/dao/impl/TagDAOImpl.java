@@ -20,19 +20,21 @@ public class TagDAOImpl implements TagDAO {
 
     private static final String JPA_SELECT_ALL = "SELECT a FROM tag a";
     private static final String JPA_SELECT_POPULAR_TAG = "select tag.id,tag.name FROM gift_order " +
-            "INNER JOIN order_has_gift_certificate ON gift_order.id = gift_order_id " +
-            "INNER JOIN relationship_certificates_and_tags ON order_has_gift_certificate.gift_certificate_id = relationship_certificates_and_tags.gift_certificate_id " +
-            "INNER JOIN tag ON tag_id = tag.id GROUP BY user_id,tag_id, tag.id ORDER BY sum(cost) DESC, count(tag_id) DESC " +
-            "LIMIT 1";
+        "INNER JOIN order_has_gift_certificate ON gift_order.id = gift_order_id " +
+        "INNER JOIN relationship_certificates_and_tags ON order_has_gift_certificate.gift_certificate_id = relationship_certificates_and_tags.gift_certificate_id "
+        +
+        "INNER JOIN tag ON tag_id = tag.id GROUP BY user_id,tag_id, tag.id ORDER BY sum(cost) DESC, count(tag_id) DESC "
+        +
+        "LIMIT 1";
     private static final String JPA_FIND_BY_NAME = "select e from tag e where e.name = :name";
     private static final String ATTRIBUTE_NAME = "name";
 
     @Override
     public List<Tag> findAll(Page page) {
         return entityManager.createQuery(JPA_SELECT_ALL, Tag.class)
-                .setFirstResult(page.getPage() * page.getSize())
-                .setMaxResults(page.getSize())
-                .getResultList();
+            .setFirstResult((page.getPage() * page.getSize()) - page.getSize())
+            .setMaxResults(page.getSize())
+            .getResultList();
     }
 
     @Override
@@ -54,8 +56,8 @@ public class TagDAOImpl implements TagDAO {
     @Override
     public Optional<Tag> findByName(String name) {
         List<Tag> tags = entityManager.createQuery(JPA_FIND_BY_NAME, Tag.class)
-                .setParameter(ATTRIBUTE_NAME, name)
-                .getResultList();
+            .setParameter(ATTRIBUTE_NAME, name)
+            .getResultList();
         if (ObjectUtils.isEmpty(tags)) {
             return Optional.empty();
         }
@@ -65,18 +67,18 @@ public class TagDAOImpl implements TagDAO {
     @Override
     public Tag findOrCreate(Tag tag) {
         return findByName(tag.getName())
-                .orElseGet(() -> {
-                    entityManager.persist(tag);
-                    return tag;
-                });
+            .orElseGet(() -> {
+                entityManager.persist(tag);
+                return tag;
+            });
     }
 
     @Override
     public Tag findPopular() {
         return (Tag) entityManager.unwrap(Session.class)
-                .createSQLQuery(JPA_SELECT_POPULAR_TAG)
-                .addEntity(Tag.class)
-                .getSingleResult();
+            .createSQLQuery(JPA_SELECT_POPULAR_TAG)
+            .addEntity(Tag.class)
+            .getSingleResult();
     }
 
 }

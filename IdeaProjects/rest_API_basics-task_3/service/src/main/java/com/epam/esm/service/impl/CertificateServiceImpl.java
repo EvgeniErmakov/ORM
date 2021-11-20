@@ -63,7 +63,8 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public List<CertificateDTO> findAll(ParametersSpecificationDTO querySpecificationDTO, Page page) {
+    public List<CertificateDTO> findAll(ParametersSpecificationDTO querySpecificationDTO,
+        Page page) {
         QuerySpecification querySpecification = mapperDTO.convertDTOToQuery(querySpecificationDTO);
         return certificateDAO.findAll(querySpecification, page)
             .stream()
@@ -107,7 +108,7 @@ public class CertificateServiceImpl implements CertificateService {
             .getCertificates()
             .stream()
             .distinct()
-            .skip(page.getPage() * page.getSize())
+            .skip((page.getPage() * page.getSize()) - page.getSize())
             .limit(page.getSize())
             .map(mapperDTO::convertCertificateToDTO)
             .collect(Collectors.toList());

@@ -28,15 +28,15 @@ public class TagServiceImpl implements TagService {
     @Override
     public List<TagDTO> findAll(Page page) {
         return tagDAO.findAll(page)
-                .stream()
-                .map(mapperDTO::convertTagToDTO)
-                .collect(Collectors.toList());
+            .stream()
+            .map(mapperDTO::convertTagToDTO)
+            .collect(Collectors.toList());
     }
 
     @Override
     public TagDTO findById(Long id) {
         return mapperDTO.convertTagToDTO(tagDAO.findById(id)
-                .orElseThrow(() -> new TagNotFoundException(id.toString())));
+            .orElseThrow(() -> new TagNotFoundException(id.toString())));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class TagServiceImpl implements TagService {
     @Transactional
     public void delete(Long id) {
         tagDAO.delete(tagDAO.findById(id)
-                .orElseThrow(() -> new TagNotFoundException(id.toString())));
+            .orElseThrow(() -> new TagNotFoundException(id.toString())));
     }
 
     @Override
@@ -59,15 +59,15 @@ public class TagServiceImpl implements TagService {
             throw new CertificateNotFoundException(id.toString());
         }
         return optional.get().getTags()
-                .stream()
-                .skip(page.getPage() * page.getSize())
-                .limit(page.getSize())
-                .map(mapperDTO::convertTagToDTO)
-                .collect(Collectors.toList());
+            .stream()
+            .skip((page.getPage() * page.getSize()) - page.getSize())
+            .limit(page.getSize())
+            .map(mapperDTO::convertTagToDTO)
+            .collect(Collectors.toList());
     }
 
     @Override
-    public TagDTO findPopular() {
+    public TagDTO findMostPopularTag() {
         return mapperDTO.convertTagToDTO(tagDAO.findPopular());
     }
 }

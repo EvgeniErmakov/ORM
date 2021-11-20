@@ -56,6 +56,6 @@ public class TagController {
 
     @GetMapping(value = "/mostPopular")
     public TagDTO findMostPopular() {
-        return ResponseAssembler.assembleTag(service.findPopular());
+        return ResponseAssembler.assembleTag(service.findMostPopularTag());
     }
 }

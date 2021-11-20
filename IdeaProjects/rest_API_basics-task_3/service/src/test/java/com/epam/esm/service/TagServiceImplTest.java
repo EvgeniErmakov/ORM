@@ -129,7 +129,7 @@ class TagServiceImplTest {
     void findPopularValid() {
         Mockito.when(tagDAO.findPopular()).thenReturn(tag);
         Mockito.when(mapperDTO.convertTagToDTO(tag)).thenReturn(tagDTO);
-        TagDTO actual = tagService.findPopular();
+        TagDTO actual = tagService.findMostPopularTag();
         Assertions.assertEquals(tagDTO, actual);
     }
 }

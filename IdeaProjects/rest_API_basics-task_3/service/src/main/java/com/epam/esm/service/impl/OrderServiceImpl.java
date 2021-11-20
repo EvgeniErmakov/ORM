@@ -82,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
                 .getOrders()
                 .stream()
                 .distinct()
-                .skip(page.getPage() * page.getSize())
+                .skip((page.getPage() * page.getSize())- page.getSize())
                 .limit(page.getSize())
                 .map(mapperDTO::convertOrderToDTO)
                 .collect(Collectors.toList());

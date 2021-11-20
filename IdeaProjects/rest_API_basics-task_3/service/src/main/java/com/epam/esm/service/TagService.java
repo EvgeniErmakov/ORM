@@ -9,5 +9,5 @@ public interface TagService extends CommonService<TagDTO, Long> {
 
     List<TagDTO> findAllByCertificateId(Long id, Page page);
 
-    TagDTO findPopular();
+    TagDTO findMostPopularTag();
 }
