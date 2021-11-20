@@ -36,55 +36,55 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDTO> findAll(Page page) {
         return orderDAO.findAll(page)
-                .stream()
-                .map(mapperDTO::convertOrderToDTO)
-                .collect(Collectors.toList());
+            .stream()
+            .map(mapperDTO::convertOrderToDTO)
+            .collect(Collectors.toList());
     }
 
     @Override
     public OrderDTO findById(Long id) {
         return mapperDTO.convertOrderToDTO(orderDAO.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException(id.toString())));
+            .orElseThrow(() -> new OrderNotFoundException(id.toString())));
     }
 
     @Override
     @Transactional
     public OrderDTO create(OrderDTO orderDTO) {
-        User user = userDAO.findById(orderDTO.getUserId())
-                .orElseThrow(() -> new UserNotFoundException(orderDTO.getUserId().toString()));
         orderDTO.setCost(new BigDecimal(0));
         List<Certificate> certificates = new ArrayList<>();
+        Order order = mapperDTO.convertDTOToOrder(orderDTO);
+        User user = userDAO.findById(orderDTO.getUserId())
+            .orElseThrow(() -> new UserNotFoundException(orderDTO.getUserId().toString()));
+        order.setUser(user);
         orderDTO.getCertificateId().forEach(id -> {
-            Optional<Certificate> optional = certificateDAO.findById(id);
-            if (optional.isEmpty() || !optional.get().isActive()) {
+            Certificate certificate = certificateDAO.findById(id)
+                .orElseThrow(() -> new CertificateNotFoundException(id.toString()));
+            if (!certificate.isActive()) {
                 throw new CertificateNotFoundException(id.toString());
             }
-            certificates.add(optional.get());
-            orderDTO.setCost(orderDTO.getCost().add(optional.get().getPrice()));
+            certificates.add(certificate);
+                orderDTO.setCost(orderDTO.getCost().add(certificate.getPrice()));
         });
-        Order order = mapperDTO.convertDTOToOrder(orderDTO);
-        order.setUser(user);
+        order.setCost(orderDTO.getCost());
         order.setCertificates(certificates);
         order = orderDAO.create(order);
         return mapperDTO.convertOrderToDTO(order);
     }
 
     @Override
-    public void delete(Long id) {
-        throw new UnsupportedOperationException("method not allowed");
-    }
+    public void delete(Long id) {}
 
     @Override
-    public List<OrderDTO> findAllByUserId(Long id, Page page) {
+    public List<OrderDTO> findAllOrdersByUserId(Long id, Page page) {
         return userDAO
-                .findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id.toString()))
-                .getOrders()
-                .stream()
-                .distinct()
-                .skip((page.getPage() * page.getSize())- page.getSize())
-                .limit(page.getSize())
-                .map(mapperDTO::convertOrderToDTO)
-                .collect(Collectors.toList());
+            .findById(id)
+            .orElseThrow(() -> new UserNotFoundException(id.toString()))
+            .getOrders()
+            .stream()
+            .distinct()
+            .skip(((long) page.getPage() * page.getSize()) - page.getSize())
+            .limit(page.getSize())
+            .map(mapperDTO::convertOrderToDTO)
+            .collect(Collectors.toList());
     }
 }

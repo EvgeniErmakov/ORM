@@ -14,8 +14,9 @@ import javax.validation.constraints.Min;
 public class Page {
 
     @Min(1)
-    private int size = 5;
+    private int page = 1;
 
     @Min(1)
-    private int page = 1;
+    private int size = 5;
+
 }

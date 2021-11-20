@@ -16,14 +16,14 @@ public class UserDAOImpl implements UserDAO {
 
     private final EntityManager entityManager;
 
-    private static final String JPA_SELECT_ALL = "SELECT a FROM clientele a";
+    private static final String JPA_SELECT_ALL_USERS = "SELECT a FROM clientele a";
 
     @Override
     public List<User> findAll(Page page) {
-        return entityManager.createQuery(JPA_SELECT_ALL, User.class)
-                .setFirstResult(page.getPage() * page.getSize())
-                .setMaxResults(page.getSize())
-                .getResultList();
+        return entityManager.createQuery(JPA_SELECT_ALL_USERS, User.class)
+            .setFirstResult((page.getPage() * page.getSize()) - page.getSize())
+            .setMaxResults(page.getSize())
+            .getResultList();
     }
 
     @Override

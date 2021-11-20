@@ -16,14 +16,14 @@ public class OrderDAOImpl implements OrderDAO {
 
     private final EntityManager entityManager;
 
-    private static final String JPA_SELECT_ALL = "SELECT a FROM gift_order a";
+    private static final String SELECT_ALL = "SELECT orders FROM gift_order orders";
 
     @Override
     public List<Order> findAll(Page page) {
-        return entityManager.createQuery(JPA_SELECT_ALL, Order.class)
-                .setFirstResult(page.getPage() * page.getSize())
-                .setMaxResults(page.getSize())
-                .getResultList();
+        return entityManager.createQuery(SELECT_ALL, Order.class)
+            .setFirstResult((page.getPage() * page.getSize()) - page.getSize())
+            .setMaxResults(page.getSize())
+            .getResultList();
     }
 
     @Override
@@ -38,8 +38,5 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public void delete(Order order) {
-        throw new UnsupportedOperationException("method not allowed");
-    }
-
+    public void delete(Order order) {}
 }

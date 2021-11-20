@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface OrderService extends CommonService<OrderDTO, Long> {
 
-    List<OrderDTO> findAllByUserId(Long id, Page page);
+    List<OrderDTO> findAllOrdersByUserId(Long id, Page page);
 }

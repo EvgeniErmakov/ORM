@@ -108,7 +108,7 @@ public class CertificateServiceImpl implements CertificateService {
             .getCertificates()
             .stream()
             .distinct()
-            .skip((page.getPage() * page.getSize()) - page.getSize())
+            .skip(((long) page.getPage() * page.getSize()) - page.getSize())
             .limit(page.getSize())
             .map(mapperDTO::convertCertificateToDTO)
             .collect(Collectors.toList());

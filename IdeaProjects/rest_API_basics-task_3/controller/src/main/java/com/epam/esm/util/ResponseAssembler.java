@@ -54,17 +54,6 @@ public class ResponseAssembler {
         return mapTag(tagDTO);
     }
 
-    public static List<UserDTO> assembleUsers(List<UserDTO> users) {
-        return users
-                .stream()
-                .map(ResponseAssembler::mapUser)
-                .collect(Collectors.toList());
-    }
-
-    public static UserDTO assembleUser(UserDTO userDTO) {
-        return mapUser(userDTO);
-    }
-
     private static CertificateDTO mapCertificate(CertificateDTO certificate) {
         if (!ObjectUtils.isEmpty(certificate.getTags())) {
             certificate.add(linkTo(methodOn(CertificateController.class).findTagsByCertificateId(certificate.getId(), new Page())).withRel("tags"));
@@ -74,8 +63,7 @@ public class ResponseAssembler {
     }
 
     private static OrderDTO mapOrder(OrderDTO orderDTO) {
-        orderDTO.add(linkTo(methodOn(OrderController.class).findById(orderDTO.getId())).withSelfRel());
-        orderDTO.add(linkTo(methodOn(OrderController.class).findAllByOrderId(orderDTO.getId(), new Page())).withRel("certificates"));
+        orderDTO.add(linkTo(methodOn(OrderController.class).findAllByOrderId(orderDTO.getId(), new Page())).withRel("list or certificates"));
         orderDTO.add(linkTo(methodOn(UserController.class).findById(orderDTO.getUserId())).withRel("user"));
         orderDTO.setCertificateId(null);
         orderDTO.setUserId(null);

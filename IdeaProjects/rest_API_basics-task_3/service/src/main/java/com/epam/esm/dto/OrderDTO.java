@@ -30,7 +30,7 @@ public class OrderDTO extends RepresentationModel<OrderDTO> {
     private List<Long> certificateId;
 
     @NotNull
-    @Min(0)
+    @Min(1)
     private Long userId;
 
     private BigDecimal cost;

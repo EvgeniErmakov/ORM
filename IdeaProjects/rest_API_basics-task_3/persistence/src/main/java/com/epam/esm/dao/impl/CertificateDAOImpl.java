@@ -77,15 +77,12 @@ public class CertificateDAOImpl implements CertificateDAO {
 
     @Override
     public Certificate applyPatch(Certificate certificate, Certificate update) {
-        certificate.setName(
-            ObjectUtils.isEmpty(update.getName()) ? certificate.getName() : update.getName());
-        certificate.setDescription(
-            ObjectUtils.isEmpty(update.getDescription()) ? certificate.getDescription()
-                : update.getDescription());
         certificate.setPrice(
-            ObjectUtils.isEmpty(update.getPrice()) ? certificate.getPrice() : update.getPrice());
+            ObjectUtils.isEmpty(update.getPrice()) ? certificate.getPrice()
+                : update.getPrice());
         certificate.setDuration(
-            ObjectUtils.isEmpty(update.getDuration()) ? certificate.getDuration()
+            (ObjectUtils.isEmpty(update.getDuration()) || (update.getDuration() == 0))
+                ? certificate.getDuration()
                 : update.getDuration());
         return certificate;
     }

@@ -116,7 +116,7 @@ class OrderServiceImplTest {
         Long id = 1L;
         User user = User.builder().orders(new HashSet<>()).build();
         Mockito.when(userDAO.findById(id)).thenReturn(Optional.of(user));
-        List<OrderDTO> actual = orderService.findAllByUserId(id, new Page());
+        List<OrderDTO> actual = orderService.findAllOrdersByUserId(id, new Page());
         Assertions.assertTrue(actual.isEmpty());
     }
 
@@ -126,7 +126,7 @@ class OrderServiceImplTest {
         Page page = new Page();
         Mockito.when(userDAO.findById(id)).thenReturn(Optional.empty());
         Assertions.assertThrows(UserNotFoundException.class, () -> {
-            orderService.findAllByUserId(id, page);
+            orderService.findAllOrdersByUserId(id, page);
         });
     }
 }

@@ -28,18 +28,17 @@ import java.util.List;
 @Validated
 public class TagController {
 
+    private static final int MIN_ID = 1;
     private final TagService service;
 
-    private static final int MIN_ID = 1;
+    @GetMapping(value = "/{id}")
+    public TagDTO findById(@PathVariable @Min(MIN_ID) Long id) {
+        return service.findById(id);
+    }
 
     @GetMapping
     public List<TagDTO> findAll(@Valid Page page) {
         return ResponseAssembler.assembleTags(service.findAll(page));
-    }
-
-    @GetMapping(value = "/{id}")
-    public TagDTO findById(@PathVariable @Min(MIN_ID) Long id) {
-        return ResponseAssembler.assembleTag(service.findById(id));
     }
 
     @PostMapping
@@ -54,7 +53,7 @@ public class TagController {
         service.delete(id);
     }
 
-    @GetMapping(value = "/mostPopular")
+    @GetMapping(value = "/mostPopularTag")
     public TagDTO findMostPopular() {
         return ResponseAssembler.assembleTag(service.findMostPopularTag());
     }
