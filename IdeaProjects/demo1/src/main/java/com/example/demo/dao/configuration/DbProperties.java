@@ -1,5 +1,5 @@
 package com.example.demo.dao.configuration;
-
+/*
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -29,3 +29,5 @@ public class DbProperties {
     @Value("${entityManager.packagesToScan}")
     private String packagesForScan;
 }
+
+ */
