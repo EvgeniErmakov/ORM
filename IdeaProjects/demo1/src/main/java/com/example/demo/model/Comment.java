@@ -18,9 +18,12 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
+
     private String text;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Topic topic;
+
     public Comment(String text){
         this.text=text;
     }

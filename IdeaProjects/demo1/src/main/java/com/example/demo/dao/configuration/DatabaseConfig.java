@@ -41,7 +41,11 @@ public class DatabaseConfig {
         sessionFactory.setHibernateProperties(hibernateProperties);
         return sessionFactory;
     }
+
+
    }
+
+
  */
 
 
